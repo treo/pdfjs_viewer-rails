@@ -10,4 +10,3 @@ test/dummy/.sass-cache
 /test/sandbox/*
 !/test/sandbox/.gitkeep
 
-.ruby-version
