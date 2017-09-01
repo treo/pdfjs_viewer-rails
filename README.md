@@ -84,6 +84,15 @@ Verbosity levels:
 * warnings
 * infos
 
+### CORS of the viewer
+
+As the viewer does a cross origin check, you'll have specify the origins you
+want to allow to use your pdf.js viewer using an ENV variable:
+
+```
+$ export PDFJS_VIEWER_ORIGINS=http://localhost:3000,http://example.com,http://production-site.com
+```
+
 ## Development
 
 Tests can be executed with:
