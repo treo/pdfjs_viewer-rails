@@ -6447,6 +6447,7 @@ var pdfjsWebLibs;
   window.PDFView = PDFViewerApplication; // obsolete name, using it as an alias
 
   var HOSTED_VIEWER_ORIGINS = <%= ENV.fetch("PDFJS_VIEWER_ORIGINS", "").split(",").inspect %>;
+  var HOSTED_FILE_ORIGINS = <%= ENV.fetch("PDFJS_FILE_ORIGINS", "").split(",").inspect %>;
   function validateFileURL(file) {
     try {
       // IE workaround because window.location.origin
@@ -6455,11 +6456,17 @@ var pdfjsWebLibs;
       if (HOSTED_VIEWER_ORIGINS.indexOf(viewerOrigin) >= 0) {
         // Hosted or local viewer, allow for any file locations
         return;
-       }
-       var fileOrigin = new URL(file, window.location.href).origin;
-       if (fileOrigin !== viewerOrigin) {
+      }
+      var fileOrigin = new URL(file, window.location.href).origin;
+
+      if (HOSTED_FILE_ORIGINS.indexOf(fileOrigin) >= 0){
+        // File is hosted on known host
+        return;
+      }
+     
+      if (fileOrigin !== viewerOrigin) {
          throw new Error('file origin does not match viewer\'s');
-       }
+      }
     } catch (e) {
       var message = e && e.message;
       var loadingErrorMessage = mozL10n.get('loading_error', null, 'An error occurred while loading the PDF.');
